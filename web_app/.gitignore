@@ -39,6 +39,8 @@ Thumbs.db
 
 # Video files (большие, не загружаем в репозиторий)
 *.mp4
+# Но разрешаем видео в static/video/
+!static/video/*.mp4
 
 # Temporary files
 *.tmp

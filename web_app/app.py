@@ -57,15 +57,6 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/video/<filename>')
-def video(filename):
-    """Сервис для обслуживания видео файлов"""
-    video_path = os.path.join(os.path.dirname(__file__), filename)
-    if os.path.exists(video_path):
-        return send_file(video_path, mimetype='video/mp4')
-    return '', 404
-
-
 @app.route('/api/init', methods=['POST'])
 def api_init():
     """Инициализация клиента с токеном"""
