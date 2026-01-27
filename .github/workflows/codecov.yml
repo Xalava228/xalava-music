@@ -1,0 +1,31 @@
+name: Codecov
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v4
+
+      - name: Setup Python.
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+
+      - name: Install dependencies.
+        run: pip install -r requirements-dev.txt
+
+      - name: Test with pytest and generate coverage.
+        run: pytest -v --cov=yandex_music
+
+      - name: Submit coverage.
+        if: github.ref == 'refs/heads/main' && github.repository == 'MarshalX/yandex-music-api'
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: codecov -F github -t $CODECOV_TOKEN --name "GHA"

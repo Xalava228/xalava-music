@@ -1,0 +1,4 @@
+Flask==3.0.0
+flask-cors==4.0.0
+yandex-music
+# SQLite встроен в Python, дополнительных зависимостей не требуется

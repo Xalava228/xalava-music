@@ -1,0 +1,1019 @@
+/* ============================================
+   XALAVA MUSIC - АДАПТИВНЫЕ СТИЛИ (Mobile First)
+   ============================================ */
+
+/* ===================================================================
+   MOBILE FIRST RESPONSIVE STYLES
+   Базовые стили для мобильных (<768px), затем медиазапросы для больших экранов
+   =================================================================== */
+
+/* === ADAPTIVE SPACING === */
+:root {
+    /* Адаптивные отступы - меньше на мобильных */
+    --spacing-xs: 4px;
+    --spacing-sm: 6px;
+    --spacing-md: 12px;
+    --spacing-lg: 16px;
+    --spacing-xl: 20px;
+    --spacing-2xl: 24px;
+    
+    /* Минимальный размер кликабельных элементов */
+    --touch-target-min: 44px;
+}
+
+/* === CONTAINER === */
+.container {
+    padding: var(--spacing-sm) var(--spacing-md);
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* === HEADER === */
+.header {
+    padding: var(--spacing-sm) var(--spacing-md);
+    z-index: var(--z-header);
+}
+
+.header-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+}
+
+/* Logo - центрируем на мобильных */
+.logo {
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    text-align: center;
+    margin: 0;
+    flex: 1;
+    order: 2;
+}
+
+.burger-menu-btn {
+    order: 1;
+    flex-shrink: 0;
+}
+
+/* Search - на всю ширину на мобильных */
+.search-wrapper {
+    order: 2;
+    max-width: 100%;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.search-container {
+    width: 100%;
+}
+
+.search-input {
+    padding: 12px 16px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.search-btn {
+    width: 100%;
+    padding: 12px;
+    min-height: var(--touch-target-min);
+}
+
+/* Auth Container */
+.auth-container {
+    order: 1;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+#authStatus {
+    flex: 1 1 100%;
+    text-align: center;
+    font-size: 0.875rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.init-btn,
+.btn-secondary {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 16px;
+    min-height: var(--touch-target-min);
+    font-size: 0.95rem;
+}
+
+/* === MAIN LAYOUT === */
+.main-content {
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    padding-top: calc(80px + var(--spacing-md));
+    padding-bottom: calc(120px + var(--spacing-md));
+}
+
+/* === SIDEBAR === */
+/* На мобильных sidebar управляется через burger-menu.css */
+.sidebar {
+    width: 100%;
+    position: static;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.nav-item {
+    padding: 12px 20px;
+    min-height: var(--touch-target-min);
+    font-size: 0.95rem;
+    width: 100%;
+}
+
+/* === CONTENT AREA === */
+.content-area {
+    padding: var(--spacing-md) var(--spacing-lg);
+    min-height: 400px;
+    margin-bottom: var(--spacing-md);
+}
+
+.page h2 {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* === HOME PAGE === */
+.home-hero {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.home-subtitle {
+    font-size: 0.95rem;
+    margin-top: -12px;
+    margin-bottom: var(--spacing-md);
+}
+
+.home-actions {
+    gap: var(--spacing-sm);
+}
+
+.home-actions .btn-secondary {
+    flex: 1;
+    min-width: auto;
+    padding: 10px 12px;
+    font-size: 0.875rem;
+}
+
+.home-section {
+    margin: var(--spacing-xl) 0;
+}
+
+.home-section-header {
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.home-section-header h3 {
+    flex: 1 1 100%;
+    font-size: clamp(1.125rem, 3vw, 1.5rem);
+}
+
+.home-link-btn {
+    padding: 8px 12px;
+    font-size: 0.875rem;
+    min-height: var(--touch-target-min);
+}
+
+.home-recent-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+}
+
+.home-recent-item {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+}
+
+.home-recent-cover {
+    width: 48px;
+    height: 48px;
+}
+
+.home-recent-title {
+    font-size: 0.95rem;
+}
+
+.home-recent-artist {
+    font-size: 0.8125rem;
+}
+
+/* === TRACK CARDS === */
+.tracks-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+.track-card {
+    padding: var(--spacing-sm);
+}
+
+.track-cover,
+.track-cover-img {
+    margin-bottom: var(--spacing-sm);
+}
+
+.track-card-title {
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.track-card-artist {
+    font-size: 0.8125rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.track-actions {
+    gap: var(--spacing-xs);
+    padding-top: var(--spacing-xs);
+}
+
+.favorite-btn,
+.add-to-playlist-btn {
+    padding: 8px;
+    font-size: 1.1rem;
+    min-height: var(--touch-target-min);
+}
+
+/* === RECOMMENDATION CARDS === */
+.recommendation-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+}
+
+.recommendation-card {
+    padding: var(--spacing-md);
+}
+
+/* === PLAYER FOOTER === */
+.player-footer {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    z-index: var(--z-player);
+}
+
+.player-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: var(--spacing-xs);
+}
+
+/* Player Info + Controls - объединены в одну строку */
+.player-info {
+    order: 1;
+    gap: var(--spacing-xs);
+    min-height: 44px;
+    flex-direction: row;
+    align-items: center;
+}
+
+#trackCover {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+}
+
+.track-details {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+#trackTitle {
+    font-size: 0.85rem;
+    margin-bottom: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#trackArtist {
+    font-size: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Player Controls - в той же строке справа */
+.player-controls {
+    order: 1;
+    justify-content: flex-end;
+    gap: var(--spacing-xs);
+    flex-shrink: 0;
+}
+
+.control-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+}
+
+.play-btn {
+    width: 44px;
+    height: 44px;
+}
+
+.playback-mode-btn {
+    display: none; /* Скрываем shuffle и repeat на мобильных */
+}
+
+/* Player Progress - вторая строка */
+.player-progress {
+    order: 2;
+    margin-top: var(--spacing-xs);
+}
+
+.progress-bar {
+    height: 4px;
+}
+
+.time-info {
+    font-size: 0.65rem;
+    margin-top: 2px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Player Volume - скрыто на мобильных */
+.player-volume {
+    display: none;
+}
+
+/* === NOW PLAYING MODAL === */
+.now-playing-content {
+    width: min(420px, 95vw);
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
+}
+
+.np-cover {
+    width: min(280px, 80vw);
+}
+
+.np-favorite-btn {
+    width: min(240px, 82%);
+    height: 44px;
+    font-size: 18px;
+}
+
+.np-title {
+    font-size: 1.05rem;
+}
+
+.np-artist {
+    font-size: 0.875rem;
+}
+
+.np-controls {
+    gap: var(--spacing-md);
+}
+
+.np-ctrl-btn {
+    width: 44px;
+    height: 44px;
+}
+
+.np-play-btn {
+    width: 56px;
+    height: 56px;
+}
+
+.np-progress-bar {
+    height: 8px;
+}
+
+.np-queue-list {
+    max-height: min(280px, 30vh);
+}
+
+/* === MODALS === */
+.modal {
+    padding: var(--spacing-md);
+}
+
+.modal-content {
+    padding: var(--spacing-lg);
+    max-width: 95vw;
+    max-height: 90vh;
+}
+
+.modal-header {
+    margin-bottom: var(--spacing-md);
+}
+
+.modal-title {
+    font-size: 1.25rem;
+}
+
+.modal-close {
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+}
+
+/* === FORMS === */
+.form-group {
+    gap: var(--spacing-sm);
+}
+
+.form-input,
+.form-textarea {
+    padding: 12px 14px;
+    font-size: 1rem;
+    min-height: var(--touch-target-min);
+}
+
+.password-input-wrapper .form-input {
+    padding-right: 44px;
+}
+
+.password-toggle {
+    width: 40px;
+    height: 40px;
+}
+
+.btn-primary {
+    padding: 14px;
+    font-size: 1rem;
+    min-height: var(--touch-target-min);
+}
+
+/* === TABS === */
+.history-tabs {
+    gap: var(--spacing-xs);
+    padding: 4px;
+}
+
+.tab-btn {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    min-height: var(--touch-target-min);
+}
+
+/* === HISTORY & PLAYLISTS === */
+.history-item,
+.playlist-item {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.history-item-cover,
+.playlist-item-cover {
+    width: 44px;
+    height: 44px;
+}
+
+.history-item-title,
+.playlist-item-name {
+    font-size: 0.95rem;
+}
+
+.history-item-artist,
+.history-item-time,
+.playlist-item-meta {
+    font-size: 0.8125rem;
+}
+
+/* === INFO BOX === */
+.info-box {
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+}
+
+.info-box h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.info-box p {
+    font-size: 0.9rem;
+}
+
+/* === ARTIST/ALBUM DETAIL === */
+.artist-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-lg);
+}
+
+img.artist-cover-large,
+img.album-cover-large {
+    width: 140px;
+    height: 140px;
+}
+
+.artist-description {
+    font-size: 0.9rem;
+}
+
+.artist-genres {
+    justify-content: center;
+}
+
+.genre-chip {
+    padding: 5px 9px;
+    font-size: 0.75rem;
+}
+
+/* ========================================
+   TABLET (≥768px) - Планшеты
+   ======================================== */
+@media (min-width: 768px) {
+    :root {
+        --spacing-md: 14px;
+        --spacing-lg: 20px;
+        --spacing-xl: 28px;
+        --spacing-2xl: 36px;
+    }
+    
+    .container {
+        padding: var(--spacing-lg);
+    }
+    
+    .header {
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+    
+    .header-content {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    
+    .logo {
+        text-align: left;
+        flex: 0 0 auto;
+    }
+    
+    .search-wrapper {
+        order: 2;
+        flex: 1;
+        min-width: 200px;
+        max-width: 500px;
+        flex-direction: row;
+    }
+    
+    .search-btn {
+        width: auto;
+        padding: 12px 24px;
+    }
+    
+    .auth-container {
+        order: 3;
+        flex: 0 0 auto;
+        justify-content: flex-end;
+    }
+    
+    #authStatus {
+        flex: 0 0 auto;
+    }
+    
+    .init-btn,
+    .btn-secondary {
+        flex: 0 0 auto;
+        min-width: auto;
+    }
+    
+    .main-content {
+        padding-top: calc(90px + var(--spacing-lg));
+        padding-bottom: calc(100px + var(--spacing-lg));
+    }
+    
+    .content-area {
+        padding: var(--spacing-xl);
+    }
+    
+    /* Home grid - 2 колонки для недавних */
+    .home-recent-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    
+    /* Track cards - 6 колонок */
+    .tracks-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: var(--spacing-md);
+    }
+    
+    /* Recommendations - 2 колонки */
+    .recommendation-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-xl);
+    }
+    
+    /* Player - более компактный для планшетов */
+    .player-footer {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .player-container {
+        grid-template-columns: auto 1fr auto;
+        grid-template-rows: auto auto;
+        gap: var(--spacing-sm);
+        align-items: center;
+    }
+    
+    .player-info {
+        order: 1;
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        min-width: 0;
+        max-width: 200px;
+    }
+    
+    #trackCover {
+        width: 48px;
+        height: 48px;
+    }
+    
+    #trackTitle {
+        font-size: 0.875rem;
+    }
+    
+    #trackArtist {
+        font-size: 0.75rem;
+    }
+    
+    .player-controls {
+        order: 2;
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        justify-content: center;
+        gap: var(--spacing-xs);
+    }
+    
+    .control-btn {
+        width: 42px;
+        height: 42px;
+    }
+    
+    .play-btn {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .playback-mode-btn {
+        display: flex; /* Показываем на планшетах */
+        width: 36px;
+        height: 36px;
+    }
+    
+    .player-progress {
+        order: 3;
+        grid-column: 1 / 4;
+        grid-row: 2 / 3;
+        margin-top: var(--spacing-xs);
+    }
+    
+    .progress-bar {
+        height: 5px;
+    }
+    
+    .time-info {
+        font-size: 0.7rem;
+    }
+    
+    .player-volume {
+        display: none; /* Скрываем на планшетах для компактности */
+    }
+    
+    /* Modal */
+    .modal-content {
+        max-width: 500px;
+        padding: var(--spacing-xl);
+    }
+    
+    /* Artist/Album detail */
+    .artist-header {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        gap: var(--spacing-xl);
+    }
+    
+    img.artist-cover-large,
+    img.album-cover-large {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .artist-genres {
+        justify-content: flex-start;
+    }
+}
+
+/* ========================================
+   DESKTOP SMALL (≥992px) - Маленькие десктопы
+   ======================================== */
+@media (min-width: 992px) {
+    :root {
+        --spacing-md: 16px;
+        --spacing-lg: 24px;
+        --spacing-xl: 32px;
+        --spacing-2xl: 48px;
+    }
+    
+    .main-content {
+        flex-direction: row;
+        padding-top: calc(90px + var(--spacing-xl));
+        padding-bottom: calc(150px + var(--spacing-xl));
+    }
+    
+    /* Sidebar - боковая панель */
+    .sidebar {
+        width: 240px;
+        flex-shrink: 0;
+        position: sticky;
+        top: calc(80px + var(--spacing-lg));
+        height: fit-content;
+        padding: var(--spacing-lg);
+    }
+    
+    .nav-menu {
+        flex-direction: column;
+        overflow: visible;
+    }
+    
+    .nav-item {
+        white-space: normal;
+    }
+    
+    /* Home grid - может быть 2 колонки */
+    .home-hero {
+        grid-template-columns: 1.2fr 1fr;
+    }
+    
+    .home-recent-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    
+    /* Track cards - 6 колонок */
+    .tracks-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: var(--spacing-lg);
+    }
+    
+    /* Recommendations - 3 колонки */
+    .recommendation-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* Player - 3 колонки */
+    .player-container {
+        grid-template-columns: 1fr auto 1.5fr;
+        grid-template-rows: auto;
+        align-items: center;
+    }
+    
+    .player-info {
+        order: 1;
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+    }
+    
+    .player-controls {
+        order: 2;
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        justify-content: center;
+    }
+    
+    .player-progress {
+        order: 3;
+        grid-column: 3 / 4;
+        grid-row: 1 / 2;
+    }
+    
+    .player-volume {
+        display: none;
+    }
+}
+
+/* ========================================
+   DESKTOP MEDIUM (≥1200px) - Средние десктопы
+   ======================================== */
+@media (min-width: 1200px) {
+    .sidebar {
+        width: 280px;
+    }
+    
+    .search-wrapper {
+        max-width: 600px;
+    }
+    
+    .home-hero {
+        grid-template-columns: 1.3fr 1fr;
+    }
+    
+    .tracks-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    
+    /* Player - 4 колонки с громкостью */
+    .player-container {
+        grid-template-columns: 1fr auto 2fr auto;
+        gap: var(--spacing-xl);
+    }
+    
+    .player-info {
+        grid-column: 1 / 2;
+    }
+    
+    .player-controls {
+        grid-column: 2 / 3;
+    }
+    
+    .player-progress {
+        grid-column: 3 / 4;
+    }
+    
+    .player-volume {
+        display: flex;
+        order: 4;
+        grid-column: 4 / 5;
+        grid-row: 1 / 2;
+        min-width: 150px;
+    }
+}
+
+/* ========================================
+   DESKTOP LARGE (≥1600px) - Большие экраны
+   ======================================== */
+@media (min-width: 1600px) {
+    .tracks-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+    
+    .recommendation-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+}
+
+/* ========================================
+   TOUCH DEVICE OPTIMIZATIONS
+   ======================================== */
+@media (hover: none) and (pointer: coarse) {
+    /* Увеличиваем область клика для тач-устройств */
+    .nav-item,
+    .control-btn,
+    .favorite-btn,
+    .add-to-playlist-btn,
+    .btn-primary,
+    .btn-secondary,
+    .search-btn {
+        min-height: var(--touch-target-min);
+        min-width: var(--touch-target-min);
+    }
+    
+    /* Убираем hover эффекты, заменяем на active */
+    .nav-item:hover {
+        background: transparent;
+        transform: none;
+    }
+    
+    .nav-item:active {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .track-card:hover {
+        transform: none;
+        box-shadow: var(--shadow-soft);
+    }
+    
+    .track-card:active {
+        transform: scale(0.98);
+    }
+    
+    /* Увеличиваем progress bar для удобства */
+    .progress-bar {
+        height: 10px;
+    }
+    
+    .np-progress-bar {
+        height: 12px;
+    }
+}
+
+/* ========================================
+   LANDSCAPE MOBILE OPTIMIZATIONS
+   ======================================== */
+@media (max-width: 768px) and (orientation: landscape) {
+    .main-content {
+        padding-top: calc(120px + var(--spacing-md));
+    }
+    
+    .player-footer {
+        padding: var(--spacing-xs) var(--spacing-md);
+    }
+    
+    .player-container {
+        gap: var(--spacing-sm);
+    }
+    
+    .now-playing-content {
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+    
+    .np-cover {
+        width: min(220px, 40vw);
+    }
+}
+
+/* ========================================
+   ОЧЕНЬ МАЛЕНЬКИЕ ЭКРАНЫ (<375px)
+   ======================================== */
+@media (max-width: 375px) {
+    :root {
+        --spacing-xs: 3px;
+        --spacing-sm: 5px;
+        --spacing-md: 10px;
+        --spacing-lg: 14px;
+        --spacing-xl: 18px;
+        --spacing-2xl: 22px;
+    }
+    
+    .logo {
+        font-size: 1.5rem;
+    }
+    
+    .tracks-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .track-card {
+        padding: var(--spacing-xs);
+    }
+    
+    .control-btn {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .play-btn {
+        width: 48px;
+        height: 48px;
+    }
+    
+    #trackCover {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .home-recent-cover {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* ========================================
+   HORIZONTAL SCROLL IMPROVEMENTS
+   ======================================== */
+.nav-menu,
+.tracks-grid {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+/* ========================================
+   VIDEO BACKGROUND OPTIMIZATION
+   ======================================== */
+@media (max-width: 768px) {
+    .background-video {
+        /* На мобильных можно уменьшить качество или скрыть */
+        opacity: 0.5;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    /* Отключаем анимации для пользователей с настройками доступности */
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .background-video {
+        display: none;
+    }
+}

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XALAVA MUSIC - Web Player</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=2">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style-responsive.css') }}?v=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/burger-menu.css') }}?v=1">
+</head>
+<body>
+    <!-- Animated Background -->
+    <video class="background-video" autoplay muted loop playsinline>
+        <source src="{{ url_for('video', filename='fontwo.mp4') }}" type="video/mp4">
+    </video>
+    <div class="background-overlay"></div>
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="header-content">
+                <!-- Burger Menu Button (Mobile/Tablet) -->
+                <button class="burger-menu-btn" id="burgerMenuBtn" aria-label="Открыть меню">
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                </button>
+                <h1 class="logo">XALAVA MUSIC</h1>
+                <div class="search-wrapper">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Поиск треков, альбомов, исполнителей...">
+                    </div>
+                    <button id="searchBtn" class="search-btn">Поиск</button>
+                </div>
+                <div class="auth-container">
+                    <span id="authStatus" style="font-size: 12px; color: #666;">Гость</span>
+                    <button id="authOpenBtn" class="init-btn">Войти</button>
+                    <button id="profileBtn" class="btn-secondary" style="display: none;">Личный кабинет</button>
+                    <button id="authLogoutBtn" class="btn-secondary" style="display: none;">Выйти</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Overlay for mobile menu -->
+            <div class="sidebar-overlay" id="sidebarOverlay"></div>
+            
+            <!-- Боковая панель -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h2 class="sidebar-title">Меню</h2>
+                    <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Закрыть меню">×</button>
+                </div>
+                
+                <!-- Поиск в меню (Mobile/Tablet) -->
+                <div class="sidebar-search mobile-only">
+                    <div class="search-container">
+                        <input type="text" id="searchInputMobile" class="search-input" placeholder="Поиск треков, альбомов, исполнителей...">
+                    </div>
+                    <button id="searchBtnMobile" class="search-btn">Поиск</button>
+                </div>
+                
+                <!-- Авторизация в меню (Mobile/Tablet) -->
+                <div class="sidebar-auth mobile-only">
+                    <div class="auth-status-mobile">
+                        <span id="authStatusMobile" style="font-size: 14px; color: rgba(255,255,255,0.7);">Гость</span>
+                    </div>
+                    <div class="auth-buttons-mobile">
+                        <button id="authOpenBtnMobile" class="init-btn">Войти</button>
+                        <button id="profileBtnMobile" class="btn-secondary" style="display: none;">Личный кабинет</button>
+                        <button id="authLogoutBtnMobile" class="btn-secondary" style="display: none;">Выйти</button>
+                    </div>
+                </div>
+                
+                <nav class="nav-menu">
+                    <button class="nav-item active" data-page="home">Главная</button>
+                    <button class="nav-item" data-page="chart">Чарт</button>
+                    <button class="nav-item" data-page="search">Поиск</button>
+                    <button class="nav-item" data-page="podcasts">Подкасты</button>
+                    <button class="nav-item" data-page="favorites">Избранное</button>
+                    <button class="nav-item" data-page="history">История</button>
+                    <button class="nav-item" data-page="playlists">Плейлисты</button>
+                </nav>
+            </aside>
+
+            <!-- Контентная область -->
+            <div class="content-area">
+                <!-- Домашняя страница -->
+                <div id="homePage" class="page active">
+                    <div class="home-hero">
+                        <div class="home-hero-main">
+                            <h2>Добро пожаловать!</h2>
+                            <p class="home-subtitle">Ищите треки и исполнителей, собирайте избранное и возвращайтесь к тому, что слушали недавно.</p>
+                            <div class="home-actions">
+                                <button class="btn-secondary" id="homeGoChartBtn">Открыть чарт</button>
+                                <button class="btn-secondary" id="homeGoHistoryBtn">История</button>
+                                <button class="btn-secondary" id="homeTokenBtn">Токен</button>
+                            </div>
+                        </div>
+                        <div class="home-hero-side">
+                            <div class="info-box">
+                                <h3>Токен</h3>
+                                <p>Чтобы слушать треки без ограничений, добавьте токен Яндекс.Музыки в личном кабинете.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="home-section">
+                        <div class="home-section-header">
+                            <h3>Недавно слушали</h3>
+                            <button class="btn-secondary home-link-btn" id="homeOpenHistoryBtn">Открыть</button>
+                        </div>
+                        <div id="homeRecently" class="home-recent-grid">
+                            <div class="loading">Загрузка истории...</div>
+                        </div>
+                    </div>
+
+                    <div class="recommendations">
+                        <h3>Рекомендуем</h3>
+                        <div id="homeRecommendations" class="recommendation-grid">
+                            <div class="loading">Загрузка рекомендаций...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Страница чарта -->
+                <div id="chartPage" class="page">
+                    <h2>Чарт</h2>
+                    <div id="chartContent">
+                        <div class="loading">Загрузка чарта...</div>
+                    </div>
+                </div>
+
+                <!-- Страница поиска -->
+                <div id="searchPage" class="page">
+                    <h2>Результаты поиска</h2>
+                    <div id="searchResults">
+                        <div class="empty-state">Введите запрос в поисковую строку</div>
+                    </div>
+                </div>
+
+                <!-- Страница подкастов -->
+                <div id="podcastsPage" class="page">
+                    <h2>Подкасты</h2>
+                    <div class="recommendations">
+                        <h3>Рекомендуем</h3>
+                        <div id="podcastsRecommendations" class="recommendation-grid">
+                            <div class="loading">Загрузка рекомендаций...</div>
+                        </div>
+                    </div>
+                    <h3 style="margin-top: 30px;">Каталог подкастов</h3>
+                    <div id="podcastsContent">
+                        <div class="loading">Загрузка подкастов...</div>
+                    </div>
+                </div>
+
+                <!-- Страница избранного -->
+                <div id="favoritesPage" class="page">
+                    <h2>Избранное</h2>
+                    <div id="favoritesContent">
+                        <div class="loading">Загрузка избранного...</div>
+                    </div>
+                </div>
+
+                <!-- Страница истории -->
+                <div id="historyPage" class="page">
+                    <h2>История</h2>
+                    <div class="history-tabs">
+                        <button class="tab-btn active" data-tab="plays">Прослушивания</button>
+                        <button class="tab-btn" data-tab="search">Поиск</button>
+                    </div>
+                    <div class="history-actions">
+                        <button class="btn-secondary" id="clearHistoryBtn" style="margin-bottom: 15px;">Очистить историю прослушиваний</button>
+                    </div>
+                    <div id="historyContent">
+                        <div class="loading">Загрузка истории...</div>
+                    </div>
+                </div>
+
+                <!-- Страница плейлистов -->
+                <div id="playlistsPage" class="page">
+                    <h2>Мои плейлисты</h2>
+                    <div class="playlist-actions">
+                        <button class="btn-primary" id="createPlaylistBtn">+ Создать плейлист</button>
+                    </div>
+                    <div id="playlistsContent">
+                        <div class="loading">Загрузка плейлистов...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Плеер -->
+        <footer class="player-footer">
+            <div class="player-container">
+                <div class="player-info">
+                    <div class="track-cover" id="trackCover">
+                        <div class="cover-placeholder">🎵</div>
+                    </div>
+                <div class="track-details">
+                        <div class="track-title" id="trackTitle">Выберите трек</div>
+                        <div class="track-artist" id="trackArtist">—</div>
+                    <div class="track-meta" id="trackMeta">—</div>
+                    </div>
+                </div>
+                
+                <div class="player-controls">
+                <button class="control-btn playback-mode-btn" id="shuffleBtn" title="Перемешать">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/>
+                    </svg>
+                </button>
+                <button class="control-btn" id="prevBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                    </svg>
+                </button>
+                <button class="control-btn play-btn" id="playBtn">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" id="playIcon">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" id="pauseIcon" style="display: none;">
+                        <path d="M6 4h4v16H6zM14 4h4v16h-4z"/>
+                    </svg>
+                </button>
+                <button class="control-btn" id="nextBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16 18h2V6h-2zM6 18l8.5-6L6 6z"/>
+                    </svg>
+                </button>
+                <button class="control-btn playback-mode-btn" id="repeatBtn" title="Повтор: выкл">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="17 1 21 5 17 9"/>
+                        <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                        <polyline points="7 23 3 19 7 15"/>
+                        <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+                    </svg>
+                </button>
+                </div>
+                
+                <div class="player-progress">
+                    <div class="progress-bar">
+                    <div class="buffer-fill" id="bufferFill"></div>
+                        <div class="progress-fill" id="progressFill"></div>
+                        <input type="range" class="progress-slider" id="progressSlider" min="0" max="100" value="0">
+                    </div>
+                    <div class="time-info">
+                        <span id="currentTime">0:00</span>
+                        <span id="totalTime">0:00</span>
+                    </div>
+                </div>
+                
+                <div class="player-volume">
+                    <button class="volume-btn" id="volumeBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                            <path id="volumeHigh" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                            <path id="volumeMid" d="M15.54 8.46a5 5 0 0 1 0 7.07" style="display: none;"/>
+                            <path id="volumeMute" d="M23 9l-6 6m0-6l6 6" style="display: none;"/>
+                        </svg>
+                    </button>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
+                </div>
+            </div>
+            
+            <audio id="audioPlayer" preload="metadata"></audio>
+        </footer>
+    </div>
+
+    <!-- Fullscreen Now Playing -->
+    <div id="nowPlayingModal" class="modal now-playing-modal">
+        <div class="now-playing-content">
+            <div class="now-playing-top">
+                <button class="np-icon-btn np-close" id="npCloseBtn" aria-label="Свернуть">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                </button>
+                <div class="now-playing-top-actions">
+                    <button class="np-icon-btn" id="npQueueBtn" title="Очередь">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 6h16M4 12h16M4 18h16"></path>
+                            <circle cx="4" cy="6" r="1" fill="currentColor" stroke="none"></circle>
+                            <circle cx="4" cy="12" r="1" fill="currentColor" stroke="none"></circle>
+                            <circle cx="4" cy="18" r="1" fill="currentColor" stroke="none"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="now-playing-card">
+                <div class="np-cover" id="npCover">
+                    <div class="cover-placeholder">🎵</div>
+                </div>
+
+                <div class="np-actions-row">
+                    <button class="np-icon-btn favorite-btn np-favorite-btn" id="npFavoriteBtn" data-track-id="" title="В избранное">🤍</button>
+                </div>
+
+                <div class="np-meta">
+                    <div class="np-title" id="npTitle">Выберите трек</div>
+                    <div class="np-artist" id="npArtist">—</div>
+                </div>
+
+                <div class="np-controls">
+                    <button class="np-ctrl-btn" id="npPrevBtn" aria-label="Предыдущий">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+                        </svg>
+                    </button>
+                    <button class="np-play-btn" id="npPlayBtn" aria-label="Воспроизвести/Пауза">
+                        <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor" id="npPlayIcon">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor" id="npPauseIcon" style="display: none;">
+                            <path d="M6 4h4v16H6zM14 4h4v16h-4z"/>
+                        </svg>
+                    </button>
+                    <button class="np-ctrl-btn" id="npNextBtn" aria-label="Следующий">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 18h2V6h-2zM6 18l8.5-6L6 6z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="np-progress">
+                    <div class="progress-bar np-progress-bar">
+                        <div class="buffer-fill" id="npBufferFill"></div>
+                        <div class="progress-fill" id="npProgressFill"></div>
+                        <input type="range" class="progress-slider" id="npProgressSlider" min="0" max="100" value="0">
+                    </div>
+                    <div class="time-info">
+                        <span id="npCurrentTime">0:00</span>
+                        <span id="npTotalTime">0:00</span>
+                    </div>
+                </div>
+
+                <div class="np-queue" id="npQueue" style="display:none;">
+                    <div class="np-queue-header">
+                        <div class="np-queue-title">Очередь</div>
+                        <button class="np-icon-btn" id="npQueueCloseBtn" aria-label="Закрыть очередь">×</button>
+                    </div>
+                    <div class="np-queue-list" id="npQueueList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для создания плейлиста -->
+    <div id="playlistModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Создать плейлист</h3>
+                <button class="modal-close">×</button>
+            </div>
+            <form id="playlistForm" class="modal-form">
+                <div class="form-group">
+                    <label class="form-label">Название</label>
+                    <input type="text" id="playlistName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Описание</label>
+                    <textarea id="playlistDescription" class="form-textarea"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Обложка</label>
+                    <input type="file" id="playlistCoverFile" class="form-input" accept="image/*" style="margin-bottom: 10px;">
+                    <div style="margin-bottom: 10px; text-align: center; color: #666;">или</div>
+                    <input type="url" id="playlistCoverUri" class="form-input" placeholder="URL обложки (опционально)">
+                    <div id="playlistCoverPreview" style="margin-top: 10px; text-align: center; display: none;">
+                        <img id="playlistCoverPreviewImg" style="max-width: 200px; max-height: 200px; border-radius: 8px;">
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Создать</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно авторизации -->
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Аккаунт</h3>
+                <button class="modal-close" id="authModalClose">×</button>
+            </div>
+            <div id="authFeedback" class="form-feedback" role="status" aria-live="polite" style="display: none;"></div>
+            <div class="history-tabs">
+                <button class="tab-btn active" data-auth-tab="login">Вход</button>
+                <button class="tab-btn" data-auth-tab="register">Регистрация</button>
+            </div>
+            <form id="loginForm" class="modal-form">
+                <div class="form-group">
+                    <label class="form-label">Логин</label>
+                    <input type="text" id="loginUsername" class="form-input" required autocomplete="username">
+                    <span class="form-error" id="loginUsernameError"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Пароль</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="loginPassword" class="form-input" required autocomplete="current-password">
+                        <button type="button" class="password-toggle" data-target="loginPassword"></button>
+                    </div>
+                    <span class="form-error" id="loginPasswordError"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Токен (опционально)</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="loginToken" class="form-input" placeholder="Вставьте токен, если хотите привязать/обновить" autocomplete="off">
+                        <button type="button" class="password-toggle" data-target="loginToken"></button>
+                    </div>
+                    <span class="form-error" id="loginTokenError"></span>
+                </div>
+                <button type="submit" class="btn-primary">Войти</button>
+            </form>
+            <form id="registerForm" class="modal-form" style="display: none;">
+                <div class="form-group">
+                    <label class="form-label">Логин</label>
+                    <input type="text" id="registerUsername" class="form-input" required autocomplete="username" minlength="3" maxlength="30">
+                    <span class="form-error" id="registerUsernameError"></span>
+                    <span class="form-hint">От 3 до 30 символов, только буквы, цифры и _</span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Пароль</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="registerPassword" class="form-input" required autocomplete="new-password" minlength="8">
+                        <button type="button" class="password-toggle" data-target="registerPassword"></button>
+                    </div>
+                    <span class="form-error" id="registerPasswordError"></span>
+                    <div class="password-requirements" id="registerPasswordRequirements">
+                        <div class="requirement" data-requirement="length">Минимум 8 символов</div>
+                        <div class="requirement" data-requirement="uppercase">Одна заглавная буква</div>
+                        <div class="requirement" data-requirement="lowercase">Одна строчная буква</div>
+                        <div class="requirement" data-requirement="number">Одна цифра</div>
+                        <div class="requirement" data-requirement="special">Один спецсимвол (!@#$%^&*)</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Подтверждение пароля</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="registerPasswordConfirm" class="form-input" required autocomplete="new-password">
+                        <button type="button" class="password-toggle" data-target="registerPasswordConfirm"></button>
+                    </div>
+                    <span class="form-error" id="registerPasswordConfirmError"></span>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Токен (опционально)</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="registerToken" class="form-input" placeholder="Можно привязать токен сразу" autocomplete="off">
+                        <button type="button" class="password-toggle" data-target="registerToken"></button>
+                    </div>
+                    <span class="form-error" id="registerTokenError"></span>
+                </div>
+                <button type="submit" class="btn-primary">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно личного кабинета -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Личный кабинет</h3>
+                <button class="modal-close" id="profileModalClose">×</button>
+            </div>
+            <div id="profileContent">
+                <div class="loading">Загрузка информации...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}?v=9"></script>
+    <script src="{{ url_for('static', filename='js/burger-menu.js') }}?v=1"></script>
+</body>
+</html>
