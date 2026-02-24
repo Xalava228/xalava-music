@@ -74,6 +74,12 @@
     box-sizing: border-box;
 }
 
+button,
+a,
+[role="button"] {
+    -webkit-tap-highlight-color: transparent;
+}
+
 html {
     font-size: 16px;
     scroll-behavior: smooth;
@@ -2177,6 +2183,60 @@ h3 {
 .modal.active {
     display: flex;
     animation: fadeIn 0.3s ease-out;
+}
+
+/* Меню выбора плейлиста (при добавлении трека) — тёмная тема */
+.playlist-menu {
+    position: fixed;
+    z-index: 2000;
+    max-width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: var(--spacing-lg);
+    background: var(--color-surface-elevated);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-hard);
+}
+
+.playlist-menu-title {
+    margin: 0 0 var(--spacing-md);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+}
+
+.playlist-menu-item {
+    padding: var(--spacing-md);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    margin-bottom: 4px;
+    transition: background var(--transition-fast);
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+}
+
+.playlist-menu-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.playlist-menu-create {
+    width: 100%;
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-primary);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.playlist-menu-create:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .modal-content {

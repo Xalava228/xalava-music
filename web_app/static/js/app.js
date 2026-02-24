@@ -2797,7 +2797,7 @@ async function loadPlaylists() {
                 html += `
                     <div class="playlist-item" data-playlist-id="${playlist.id}">
                         <div class="playlist-item-cover" style="${coverUri ? `background-image: url('${coverUri}'); background-size: cover;` : ''}">
-                            ${coverUri ? '' : '📋'}
+                            ${coverUri ? '' : '≡'}
                         </div>
                         <div class="playlist-item-info">
                             <div class="playlist-item-name">${escapeHtml(playlist.name)}</div>
@@ -2932,28 +2932,39 @@ async function showAddToPlaylistMenu(event, trackId) {
             return;
         }
 
-        // Создаем меню выбора плейлиста
+        // Создаем меню выбора плейлиста (тёмная тема)
         const menu = document.createElement('div');
         menu.className = 'playlist-menu';
-        menu.style.cssText = 'position: fixed; background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 2000; max-width: 300px; max-height: 400px; overflow-y: auto;';
-        
         const rect = event.target.getBoundingClientRect();
         menu.style.top = Math.min(rect.bottom + 10, window.innerHeight - 400) + 'px';
         menu.style.left = Math.min(rect.left, window.innerWidth - 320) + 'px';
 
-        let html = '<h4 style="margin-bottom: 15px; color: #667eea;">Выберите плейлист:</h4>';
+        let html = '<h4 class="playlist-menu-title">Выберите плейлист:</h4>';
         playlists.forEach(playlist => {
-            html += `<div style="padding: 10px; cursor: pointer; border-radius: 5px; margin-bottom: 5px; transition: background 0.2s;" 
-                          onmouseover="this.style.background='#f0f0f0'" 
-                          onmouseout="this.style.background='white'"
-                          onclick="addTrackToPlaylist('${trackId}', ${playlist.id}); this.closest('.playlist-menu').remove();">
-                      ${escapeHtml(playlist.name || 'Без названия')}
-                    </div>`;
+            html += `<div class="playlist-menu-item" data-playlist-id="${playlist.id}" data-track-id="${trackId}">${escapeHtml(playlist.name || 'Без названия')}</div>`;
         });
-        html += '<button class="btn-secondary" style="width: 100%; margin-top: 10px;" onclick="this.closest(\'.playlist-menu\').remove(); document.getElementById(\'playlistModal\').classList.add(\'active\'); document.getElementById(\'playlistModal\').dataset.pendingTrackId=\'' + trackId + '\';">+ Создать новый</button>';
-        
+        html += `<button type="button" class="playlist-menu-create" data-track-id="${trackId}">+ Создать новый</button>`;
+
         menu.innerHTML = html;
         document.body.appendChild(menu);
+
+        menu.querySelectorAll('.playlist-menu-item').forEach(el => {
+            el.addEventListener('click', () => {
+                addTrackToPlaylist(el.dataset.trackId, el.dataset.playlistId);
+                menu.remove();
+            });
+        });
+        const createBtn = menu.querySelector('.playlist-menu-create');
+        if (createBtn) {
+            createBtn.addEventListener('click', () => {
+                menu.remove();
+                const modal = document.getElementById('playlistModal');
+                if (modal) {
+                    modal.classList.add('active');
+                    modal.dataset.pendingTrackId = trackId;
+                }
+            });
+        }
 
         // Закрытие при клике вне меню
         setTimeout(() => {
@@ -3442,7 +3453,7 @@ function showToast(message, type = 'info') {
 
 // Initialize Enhanced UX
 function initEnhancedUX() {
-    addRippleEffect();
+    // addRippleEffect(); — отключено: белая вспышка при клике (Выход, play/pause)
     addStaggerAnimation();
     addPlayerVisualization();
     addScrollToTop();
