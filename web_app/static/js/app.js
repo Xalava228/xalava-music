@@ -162,6 +162,8 @@ function savePlayerSettings() {
 
 // Инициализация
 async function initApp() {
+    const bgVideo = document.querySelector('.background-video');
+    if (bgVideo) bgVideo.playbackRate = 0.65;
     getDOMElements();
     loadPlayerSettings();
     setupEventListeners();
@@ -1705,10 +1707,13 @@ function createPodcastCard(podcast) {
     
     return `
         <div class="track-card podcast-card" data-podcast-id="${podcast.id}">
-            <div class="track-cover-img" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                ${coverUrl ? `<img src="${coverUrl}" alt="Cover" onerror="this.style.display='none'">` : '🎙️'}
+            <div class="podcast-card-cover">
+                ${coverUrl ? `<img src="${coverUrl}" alt="${escapeHtml(podcast.title)}" onerror="this.style.display='none'">` : '<span class="podcast-card-icon">🎙️</span>'}
             </div>
-            <div class="track-card-title">${escapeHtml(podcast.title)}</div>
+            <div class="podcast-card-info">
+                <div class="podcast-card-title">${escapeHtml(podcast.title)}</div>
+                <div class="podcast-card-label">Подкаст</div>
+            </div>
         </div>
     `;
 }
@@ -2215,6 +2220,10 @@ function updatePlayButtonIcon(playing) {
     if (npPlayIcon && npPauseIcon) {
         npPlayIcon.style.display = playing ? 'none' : 'block';
         npPauseIcon.style.display = playing ? 'block' : 'none';
+    }
+    // Vinyl spin animation
+    if (trackCover) {
+        trackCover.classList.toggle('is-playing', playing);
     }
 }
 
@@ -3334,22 +3343,17 @@ function enhanceTrackCards() {
     });
 }
 
-// Player Visualization (Simple Audio Bars)
+// Player Visualization (Vinyl Spin)
 function addPlayerVisualization() {
     if (!audioPlayer) return;
-    
     audioPlayer.addEventListener('play', () => {
-        const coverPlaceholder = trackCover?.querySelector('.cover-placeholder');
-        if (coverPlaceholder) {
-            coverPlaceholder.style.animation = 'pulse 2s ease infinite';
-        }
+        if (trackCover) trackCover.classList.add('is-playing');
     });
-    
     audioPlayer.addEventListener('pause', () => {
-        const coverPlaceholder = trackCover?.querySelector('.cover-placeholder');
-        if (coverPlaceholder) {
-            coverPlaceholder.style.animation = 'none';
-        }
+        if (trackCover) trackCover.classList.remove('is-playing');
+    });
+    audioPlayer.addEventListener('ended', () => {
+        if (trackCover) trackCover.classList.remove('is-playing');
     });
 }
 

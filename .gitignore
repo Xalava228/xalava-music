@@ -125,3 +125,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Video files (разрешаем в static/video/, остальные игнорируем)
+*.mp4
+!web_app/static/video/
+!web_app/static/video/*.mp4

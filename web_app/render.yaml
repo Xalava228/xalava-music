@@ -2,6 +2,7 @@ services:
   - type: web
     name: xalava-music
     env: python
+    rootDir: web_app
     buildCommand: pip install -r requirements.txt
     startCommand: python app.py
     envVars:
